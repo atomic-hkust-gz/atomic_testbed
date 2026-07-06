@@ -4,7 +4,7 @@
   <img src="testbed-inria.jpg" alt="Testbed Infrastructure" width="640">
 </div>
 
-## Documentation
+# Documentation
 
 The full testbed documentation is available at:
 
@@ -362,7 +362,7 @@ payload:
     }
 ```
 
-## Acknowledgements
+# Acknowledgements
 
 This testbed architecture is based on [openwsn-berkeley/opentestbed](https://github.com/openwsn-berkeley/opentestbed).
 
