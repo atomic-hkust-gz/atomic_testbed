@@ -1,0 +1,351 @@
+# WiFi Configuration
+
+To setup the WiFi network connection of the Raspberry pi, just add the following lines to /etc/wpa_supplicant/wpa_supplicant.conf
+
+```
+network={
+	ssid="SSID"
+	psk="password"
+	key_mgmt=WPA-PSK
+}
+
+```
+
+# Installation
+
+Download the file install/install.sh and execute it, the first argument will be the id of the otbox.
+
+```
+sudo sh install.sh "otbox_name"
+```
+
+
+# API
+Notes:
+- the first part of the topic is 'opentestbed', 'iotlab' or 'wilab' depending on the testbed on which it is deployed. All examples in this README assume 'opentestbed'
+- cmd messages MUST contain a 'token' field
+- resp messages MUST contain a 'token' field, which echoes the 'echo' field of the cmd
+- resp messages MUST contain a 'success' field, either true or false. If false, resp message MUST contain 'exception' and 'traceback' fields
+- deviceId of 'all' allowed
+- code runs using http://supervisord.org/
+
+## box
+
+### commands
+
+#### echo
+
+request:
+```
+topic:
+    opentestbed/deviceType/box/deviceId/Otbox1/cmd/echo
+
+payload:
+    {
+        "token": 123
+    }
+```
+
+response:
+```
+topic:
+    opentestbed/deviceType/box/deviceId/otbox01/resp/echo
+
+payload:
+    {
+        "token": 123,
+        "success": true,
+        "returnVal": {
+            "token": 123
+        }
+    }
+```
+
+#### status
+
+request:
+```
+topic:
+    opentestbed/deviceType/box/deviceId/otbox01/cmd/status
+
+payload:
+    {
+        "token": 123
+    }
+```
+
+response:
+```
+topic:
+    opentestbed/deviceType/box/deviceId/otbox01/resp/status
+
+payload:
+    {
+        "token": 123, 
+        "success": true, 
+        "returnVal": {
+            "uptime": "0:00:06.838868", 
+            "starttime": "Fri Jul 26 12:44:59 2024", 
+            "software_version": "1.2.6", 
+            "currenttime": "Fri Jul 26 12:45:06 2024", 
+            "host_name": "Otbox1", 
+            "threads_name": [
+                "MainThread", "SerialportHandler@/dev/ttyUSB0", 
+                "ThinkPad_command_status", 
+                "heartbeat_thread", 
+                "mqtt_loop_thread", 
+                "SerialRxBytePublisher@/dev/ttyUSB0", 
+                "SerialRxBytePublisher@/dev/ttyUSB1", 
+                "SerialportHandler@/dev/ttyUSB1"], 
+                "IP_address": "10.12.183.212", 
+                "location": "E4-225", 
+                "motes": [
+                {
+                    "serialport": "/dev/ttyUSB0"
+                }, 
+                {
+                    "serialport": "/dev/ttyUSB1"
+                }      
+                          ]
+                     } 
+    }
+```
+
+#### discovermotes
+
+request:
+```
+topic:
+    opentestbed/deviceType/box/deviceId/otbox01/cmd/discovermotes
+
+payload:
+    {
+       "token": 123
+    }
+```
+
+response:
+```
+topic:
+    opentestbed/deviceType/box/deviceId/otbox01/resp/discovermotes
+
+payload:
+    {
+       "token": 123, 
+       "success": true, 
+       "returnVal": {
+        "motes": [
+            {
+            "firmware_description": "FIRMWARE_EUI64_RETRIEVAL", 
+            "EUI64": "df-f4-4b-b2-13-30-0e-ee", 
+            "bootload_success": true, 
+            "serialport": "/dev/ttyUSB0"
+            }, 
+            {
+            "firmware_description": "FIRMWARE_EUI64_RETRIEVAL", 
+            "EUI64": "47-70-0c-c1-27-7e-e8-8a", 
+            "bootload_success": true, 
+            "serialport": "/dev/ttyUSB1"
+            }
+                  ]
+                     }
+    }
+```
+
+
+#### changelocation
+
+request:
+```
+topic:
+    opentestbed/deviceType/box/deviceId/otbox01/cmd/changelocation
+
+payload:
+    {
+        "location": "E4-225",
+        "token": 123
+    }
+```
+
+response:
+```
+topic:
+    opentestbed/deviceType/box/deviceId/otbox01/resp/changelocation
+
+payload:
+    {
+        "token": 123,
+        "success": true,
+        "returnVal": null
+    }
+```
+
+### notifications
+
+#### heartbeat
+
+```
+topic:
+    opentestbed/deviceType/box/deviceId/otbox01/notif/heartbeat
+
+payload:
+    {
+        "software_version": "1.2.6"
+    }
+```
+
+#### crashreport
+
+```
+topic:
+    opentestbed/deviceType/box/deviceId/otbox01/notif/crashreport
+
+payload:
+    {
+        'exception': name,
+        'traceback': name
+    }
+```
+
+## mote
+
+### commands
+
+#### program
+
+request:
+```
+topic:
+    opentestbed/deviceType/mote/deviceId/df-f4-4b-b2-13-30-0e-ee/cmd/program
+
+payload:
+    {
+        "description": "01bsp_leds",
+        "url": "https://github.com/offmor/atomic-opentestbed/raw/master/bootloaders/opentestbed/01bsp_leds.zip",
+        "token": 123
+    }
+
+```
+
+response:
+```
+topic:
+    opentestbed/deviceType/mote/deviceId/df-f4-4b-b2-13-30-0e-ee/resp/program
+
+payload:
+    {
+        "token": 123,
+        "success": true,
+        "returnVal": null
+    }
+```
+
+#### tomoteserialbytes
+
+request:
+```
+topic:
+    opentestbed/deviceType/mote/deviceId/df-f4-4b-b2-13-30-0e-ee/cmd/tomoteserialbytes
+
+payload:
+    {
+        "serialbytes": [
+            126,
+            1,
+            241,
+            225,
+            126
+        ],
+        "token": 123
+    }
+```
+
+response:
+```
+topic:
+opentestbed/deviceType/mote/deviceId/df-f4-4b-b2-13-30-0e-ee/resp/tomoteserialbytes
+
+payload:
+    {
+        "token": 123,
+        "success": true,
+        "returnVal": null
+    }
+```
+
+#### reset
+
+request:
+```
+topic:
+    opentestbed/deviceType/mote/deviceId/df-f4-4b-b2-13-30-0e-ee/cmd/reset
+
+payload:
+    {
+        "token": 123
+    }
+```
+
+response:
+```
+topic:
+    opentestbed/deviceType/mote/deviceId/df-f4-4b-b2-13-30-0e-ee/resp/reset
+
+payload:
+    {
+        "token": 123,
+        "success": true,
+        "returnVal": null
+    }
+```
+
+#### disable
+
+request:
+```
+topic:
+    opentestbed/deviceType/mote/deviceId/df-f4-4b-b2-13-30-0e-ee/cmd/disable
+
+payload:
+    {
+        "token": 123
+    }
+```
+
+response:
+```
+topic:
+    opentestbed/deviceType/mote/deviceId/df-f4-4b-b2-13-30-0e-ee/resp/disable
+
+payload:
+    {
+        "token": 123,
+        "success": true,
+        "returnVal": null
+    }
+```
+
+### notifications
+
+```
+topic:
+    opentestbed/deviceType/mote/deviceId/df-f4-4b-b2-13-30-0e-ee/notif/frommoteserialbytes
+
+payload:
+    {
+        "serialbytes": [
+            49,
+            50,
+            45,
+            48,
+            53,
+            13,
+            10,
+            48,
+            48,
+            45,
+            49,
+            45
+        ]
+    }
+```
