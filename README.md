@@ -4,6 +4,12 @@
   <img src="testbed-inria.jpg" alt="Testbed Infrastructure" width="640">
 </div>
 
+## Documentation
+
+The full testbed documentation is available at:
+
+[https://atomic-hkust-gz.notion.site/testbed-documentation](https://atomic-hkust-gz.notion.site/testbed-documentation)
+
 # WiFi Configuration
 
 To setup the WiFi network connection of the Raspberry pi, just add the following lines to /etc/wpa_supplicant/wpa_supplicant.conf
@@ -355,3 +361,9 @@ payload:
         ]
     }
 ```
+
+## Acknowledgements
+
+This testbed architecture is based on [openwsn-berkeley/opentestbed](https://github.com/openwsn-berkeley/opentestbed).
+
+Earlier modifications are available at [offmor/atomic-opentestbed](https://github.com/offmor/atomic-opentestbed).
