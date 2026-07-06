@@ -1,3 +1,9 @@
+# Testbed Infrastructure
+
+<div align="left">
+  <img src="testbed-inria.jpg" alt="Testbed Infrastructure" width="640">
+</div>
+
 # WiFi Configuration
 
 To setup the WiFi network connection of the Raspberry pi, just add the following lines to /etc/wpa_supplicant/wpa_supplicant.conf
