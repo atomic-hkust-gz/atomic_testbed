@@ -1,7 +1,7 @@
 # Testbed Infrastructure
 
 <div align="left">
-  <img src="testbed-inria.jpg" alt="Testbed Infrastructure" width="640">
+  <img src="testbed-infra.jpg" alt="Testbed Infrastructure" width="640">
 </div>
 
 # Documentation
